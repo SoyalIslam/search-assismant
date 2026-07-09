@@ -260,7 +260,11 @@ def research_single_app():
             pipeline_status["current_step"] = "completed"
             
         except Exception as e:
-            err_msg = f"❌ Failed to research app '{app_name}': {e}. Please check your API Key and connection.\n"
+            if isinstance(e, ModuleNotFoundError):
+                err_msg = f"❌ Failed to research app '{app_name}': Missing dependencies ({e}).\n"
+                err_msg += "Live agent research is disabled in serverless deployment (Vercel). Please run this project locally to use live features.\n"
+            else:
+                err_msg = f"❌ Failed to research app '{app_name}': {e}. Please check your API Key and connection.\n"
             print(err_msg.strip())
             with open(LOG_FILE, "a") as f:
                 f.write(err_msg)
