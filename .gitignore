@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# Project logs
+*.log
+pipeline.log
+logs/
+
+# Local cache/temporary files
+blocks_all.json
+rendered_page.md
+parse_apps.py
+get_all_chunks.py
+render_markdown.py
+app.js

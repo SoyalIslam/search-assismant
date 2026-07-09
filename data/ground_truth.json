@@ -1,0 +1,148 @@
+{
+  "1": {
+    "name": "Salesforce",
+    "auth_methods": [
+      "OAuth2"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developer.salesforce.com/docs"
+  },
+  "2": {
+    "name": "HubSpot",
+    "auth_methods": [
+      "OAuth2"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developers.hubspot.com/docs/api/overview"
+  },
+  "5": {
+    "name": "Twenty",
+    "auth_methods": [
+      "API Key",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://docs.twenty.com/developers"
+  },
+  "11": {
+    "name": "Zendesk",
+    "auth_methods": [
+      "OAuth2",
+      "Token",
+      "Basic"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developer.zendesk.com/api-reference/"
+  },
+  "21": {
+    "name": "Slack",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://api.slack.com"
+  },
+  "26": {
+    "name": "Discord",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://discord.com/developers/docs/intro"
+  },
+  "31": {
+    "name": "Google Ads",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Gated-Admin",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developers.google.com/google-ads/api/docs/start"
+  },
+  "41": {
+    "name": "Shopify",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://shopify.dev/docs/api"
+  },
+  "55": {
+    "name": "Apify",
+    "auth_methods": [
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://docs.apify.com/api/v2"
+  },
+  "61": {
+    "name": "GitHub",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://docs.github.com/rest"
+  },
+  "65": {
+    "name": "Supabase",
+    "auth_methods": [
+      "API Key",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://supabase.com/docs/guides/api"
+  },
+  "71": {
+    "name": "Notion",
+    "auth_methods": [
+      "OAuth2",
+      "Token"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developers.notion.com"
+  },
+  "81": {
+    "name": "Stripe",
+    "auth_methods": [
+      "API Key"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://stripe.com/docs/api"
+  },
+  "86": {
+    "name": "QuickBooks",
+    "auth_methods": [
+      "OAuth2"
+    ],
+    "self_serve_vs_gated": "Self-serve",
+    "buildability_verdict": "Yes",
+    "evidence_url": "https://developer.intuit.com/app/developer/qbo/docs/develop"
+  },
+  "92": {
+    "name": "Otter AI",
+    "auth_methods": [
+      "Other",
+      "Unknown"
+    ],
+    "self_serve_vs_gated": "Gated-Sales/Partner",
+    "buildability_verdict": "No",
+    "evidence_url": "https://help.otter.ai"
+  }
+}

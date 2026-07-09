@@ -1,0 +1,136 @@
+{
+  "summary": {
+    "total_apps": 100,
+    "buildable_percent": 80.0,
+    "self_serve_percent": 79.0
+  },
+  "auth_distribution": {
+    "OAuth2": 56,
+    "API Key": 43,
+    "Token": 42,
+    "Basic": 14,
+    "Other": 5,
+    "None": 2
+  },
+  "access_gate_distribution": {
+    "Self-serve": 79,
+    "Gated-Sales/Partner": 10,
+    "Gated-Admin": 4,
+    "Gated-Paid": 7
+  },
+  "buildable_distribution": {
+    "Yes": 80,
+    "No": 20
+  },
+  "blocker_distribution": {
+    "Partner/Sales Gate": 13,
+    "Paid Subscription Needed": 5,
+    "Gated/Restricted Access": 2
+  },
+  "category_analysis": {
+    "CRM and Sales": {
+      "total": 10,
+      "self_serve_percent": 90.0,
+      "gated_percent": 10.0,
+      "buildable_percent": 90.0,
+      "top_auth": "OAuth2"
+    },
+    "Support and Helpdesk": {
+      "total": 10,
+      "self_serve_percent": 90.0,
+      "gated_percent": 10.0,
+      "buildable_percent": 80.0,
+      "top_auth": "API Key"
+    },
+    "Communications and Messaging": {
+      "total": 10,
+      "self_serve_percent": 100.0,
+      "gated_percent": 0.0,
+      "buildable_percent": 100.0,
+      "top_auth": "Token"
+    },
+    "Marketing, Ads, Email and Social": {
+      "total": 10,
+      "self_serve_percent": 70.0,
+      "gated_percent": 30.0,
+      "buildable_percent": 90.0,
+      "top_auth": "OAuth2"
+    },
+    "Ecommerce": {
+      "total": 10,
+      "self_serve_percent": 60.0,
+      "gated_percent": 40.0,
+      "buildable_percent": 60.0,
+      "top_auth": "OAuth2"
+    },
+    "Data, SEO and Scraping": {
+      "total": 10,
+      "self_serve_percent": 70.0,
+      "gated_percent": 30.0,
+      "buildable_percent": 70.0,
+      "top_auth": "API Key"
+    },
+    "Developer, Infra and Data platforms": {
+      "total": 10,
+      "self_serve_percent": 100.0,
+      "gated_percent": 0.0,
+      "buildable_percent": 100.0,
+      "top_auth": "Token"
+    },
+    "Productivity and Project Management": {
+      "total": 10,
+      "self_serve_percent": 100.0,
+      "gated_percent": 0.0,
+      "buildable_percent": 100.0,
+      "top_auth": "OAuth2"
+    },
+    "Finance and Fintech": {
+      "total": 10,
+      "self_serve_percent": 70.0,
+      "gated_percent": 30.0,
+      "buildable_percent": 70.0,
+      "top_auth": "API Key"
+    },
+    "AI, Research and Media-native": {
+      "total": 10,
+      "self_serve_percent": 40.0,
+      "gated_percent": 60.0,
+      "buildable_percent": 40.0,
+      "top_auth": "API Key"
+    }
+  },
+  "easy_wins": [
+    "Salesforce",
+    "HubSpot",
+    "Pipedrive",
+    "Attio",
+    "Twenty",
+    "Podio",
+    "Zoho CRM",
+    "Close",
+    "Copper",
+    "Zendesk",
+    "Intercom",
+    "Freshdesk",
+    "Front",
+    "LiveAgent",
+    "Plain"
+  ],
+  "hard_obstacles": [
+    "DealCloud",
+    "Pylon",
+    "Gladly",
+    "GoHighLevel",
+    "Salesforce Commerce Cloud",
+    "Squarespace",
+    "Amazon Selling Partner",
+    "fanbasis",
+    "SE Ranking",
+    "Ahrefs",
+    "Waterfall.io",
+    "Paygent Connect",
+    "iPayX",
+    "PitchBook",
+    "NotebookLM"
+  ]
+}

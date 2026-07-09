@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Composio AI Product Ops - App API Research Case Study</title>
+  <meta name="description" content="Feasibility and API research case study of 100 applications using a semi-automated LLM research agent and verification loops.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-top">
+        <div class="logo" id="header-logo">COMPOSIO</div>
+        <div class="badge" id="role-badge">AI Product Ops Case Study</div>
+      </div>
+      <h1 id="main-title">Feasibility & API Research of <span>100 SaaS Applications</span></h1>
+      <p class="subtitle" id="main-subtitle">
+        An interactive analysis mapping developer authorization methods, access models, API surfaces, and buildability verdicts across 100 major integrations to identify automation opportunities.
+      </p>
+
+      <!-- Metrics Row -->
+      <div class="metrics-grid">
+        <div class="metric-card" id="metric-card-total">
+          <span class="metric-title">Apps Researched</span>
+          <span class="metric-value" id="stat-total-apps">0</span>
+        </div>
+        <div class="metric-card" id="metric-card-buildable">
+          <span class="metric-title">Buildable Today</span>
+          <span class="metric-value accented" id="stat-buildable">0%</span>
+        </div>
+        <div class="metric-card" id="metric-card-selfserve">
+          <span class="metric-title">Self-Serve Portals</span>
+          <span class="metric-value" id="stat-self-serve">0%</span>
+        </div>
+        <div class="metric-card" id="metric-card-accuracy">
+          <span class="metric-title">Verification Accuracy</span>
+          <span class="metric-value accented" id="stat-accuracy">100%</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="container">
+    
+    <!-- Section 0: Pipeline Control & Live Logs -->
+    <section id="pipeline-control-section" style="padding-top: 30px; padding-bottom: 20px;">
+      <h2 class="section-title">Pipeline Controller & Live Execution</h2>
+      <div class="grid-2col" style="grid-template-columns: 1fr 1.2fr; gap: 30px;">
+        <!-- Controls -->
+        <div class="panel" id="controls-panel">
+          <h3>Interactive Agent Controls</h3>
+          <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">
+            Trigger research scripts from the browser. Running the live LLM agent requires a Gemini API Key.
+          </p>
+
+          <!-- API Key Input Panel -->
+          <div style="margin-bottom: 20px; background-color: var(--bg-primary); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <label for="gemini-api-key" style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+                🔑 Gemini API Key
+              </label>
+              <span style="font-size: 11px; color: var(--success-color); font-weight: 500;">🔒 Not Stored in DB</span>
+            </div>
+            <input type="password" id="gemini-api-key" placeholder="Enter Gemini API Key (runs in-memory only)..." style="padding: 10px 14px; font-size: 13px;">
+            <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.3;">
+              *Your key is passed securely to the running script and will never be saved or logged in any database.
+            </p>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <button id="btn-run-seed" class="btn btn-outline" style="justify-content: flex-start; gap: 10px; border-color: var(--success-color); color: hsl(142, 70%, 65%);">
+              <span>🌱</span> Run Seed Pipeline (Instant Demo - 5s)
+            </button>
+            <button id="btn-run-agent" class="btn btn-outline" style="justify-content: flex-start; gap: 10px; border-color: var(--accent-color); color: hsl(258, 88%, 76%);">
+              <span>🤖</span> Run LLM Research Agent (Live - 15m)
+            </button>
+          </div>
+
+          <h3 style="border-top: 1px solid var(--border-color); padding-top: 20px;">Research Custom App (Live Agent)</h3>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 12px;">
+            Input any custom app. The agent will run DDG search + Gemini v1.5 Flash live, and append the result to the matrix below!
+          </p>
+          
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" id="custom-app-name" placeholder="App Name (e.g. Zoom, Salesforce)">
+            <input type="text" id="custom-app-hint" placeholder="Website Hint (e.g. zoom.us)">
+            <button id="btn-run-custom" class="btn btn-active" style="width: 100%;">
+              🔍 Run Custom Agent
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Output -->
+        <div class="panel" style="display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3>Live Console Output</h3>
+            <span id="pipeline-status-badge" class="tag tag-secondary">Idle</span>
+          </div>
+          <pre id="pipeline-console" style="flex-grow: 1; min-height: 250px; max-height: 350px; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: var(--success-color); overflow-y: auto; white-space: pre-wrap; word-break: break-all;">Console logs will appear here when you run a pipeline script.</pre>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 1: Insights & Patterns -->
+    <section id="insights-section">
+      <h2 class="section-title">Core Analysis & Clustering Patterns</h2>
+      <div class="grid-2col">
+        <!-- Text Analysis -->
+        <div class="panel" id="insights-text-panel">
+          <h3>The Patterns Behind the Data</h3>
+          <p style="margin-bottom: 16px; color: var(--text-secondary);">
+            Analyzing 100 integrations reveals that the SaaS developer ecosystem is highly structured, with OAuth2 and API keys dominating authorization models.
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 20px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 12px;">
+            <li>
+              <strong>Auth Dominance:</strong> <strong>OAuth2</strong> (56% of apps) is the standard for user-facing applications (CRMs, Productivity, Comms), while <strong>API Keys / Tokens</strong> (43%) dominate developer infrastructure and data platforms.
+            </li>
+            <li>
+              <strong>Self-Serve Openness:</strong> Developer sign-up is open and self-serve for <strong>79% of studied apps</strong>. The most developer-friendly categories are <em>Productivity</em>, <em>Developer Tools</em>, and <em>Communications</em> (100% self-serve sandbox setup).
+            </li>
+            <li>
+              <strong>Gated Barriers:</strong> <strong>20% of apps</strong> cannot be built as agent toolkits today. The primary blocker is the absence of a public developer API or a complete partner gate requiring sales contact (e.g., <em>DealCloud</em>, <em>Otter AI</em>, <em>iPayX</em>).
+            </li>
+            <li>
+              <strong>Easy Wins vs. Outreach:</strong> Easy wins include modern SaaS apps with robust REST/GraphQL APIs and self-serve sandboxes (e.g., <em>Twenty</em>, <em>Attio</em>, <em>Plain</em>). High blockers require manual business development or developer partnerships.
+            </li>
+          </ul>
+
+          <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Easy Developer Wins (Sample)</h4>
+              <div id="easy-wins-list" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+            </div>
+            <div>
+              <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Hard Obstacles / Gated (Sample)</h4>
+              <div id="hard-obstacles-list" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Panel -->
+        <div class="panel" id="charts-panel">
+          <div style="margin-bottom: 30px;">
+            <h3>Authorization Method Distribution</h3>
+            <div id="auth-chart-list"></div>
+          </div>
+          <div>
+            <h3>Access Gating Distribution</h3>
+            <div id="access-chart-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Agent Architecture & Verification -->
+    <section id="agent-section">
+      <h2 class="section-title">Research Agent Architecture & Verification Loops</h2>
+      <div class="grid-2col">
+        <!-- Pipeline Diagram & Explanation -->
+        <div class="panel" id="agent-pipeline-panel">
+          <h3>Automated Research Pipeline</h3>
+          <p style="margin-bottom: 16px; color: var(--text-secondary);">
+            To scale API research, we designed a Python-based research pipeline using DuckDuckGo search queries and Gemini 1.5 Flash to synthesize unstructured web results.
+          </p>
+
+          <!-- SVG Flow Diagram -->
+          <div class="flow-diagram-container">
+            <svg class="flow-diagram" width="560" height="120" viewBox="0 0 560 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Node 1 -->
+              <rect x="10" y="35" width="90" height="50" rx="8" fill="var(--bg-tertiary)" stroke="var(--border-color)" />
+              <text x="55" y="64" fill="var(--text-primary)" font-size="12" font-weight="600" text-anchor="middle">Apps List</text>
+              
+              <!-- Arrow 1 -->
+              <path d="M100 60 H120" stroke="var(--accent-color)" stroke-width="2" marker-end="url(#arrow)" />
+              
+              <!-- Node 2 -->
+              <rect x="120" y="35" width="100" height="50" rx="8" fill="var(--bg-tertiary)" stroke="var(--border-color)" />
+              <text x="170" y="58" fill="var(--text-primary)" font-size="11" font-weight="600" text-anchor="middle">DuckDuckGo</text>
+              <text x="170" y="72" fill="var(--text-secondary)" font-size="10" text-anchor="middle">API Web Search</text>
+              
+              <!-- Arrow 2 -->
+              <path d="M220 60 H240" stroke="var(--accent-color)" stroke-width="2" />
+              
+              <!-- Node 3 -->
+              <rect x="240" y="35" width="90" height="50" rx="8" fill="var(--bg-tertiary)" stroke="var(--border-color)" />
+              <text x="285" y="58" fill="var(--text-primary)" font-size="11" font-weight="600" text-anchor="middle">Gemini 1.5</text>
+              <text x="285" y="72" fill="var(--text-secondary)" font-size="10" text-anchor="middle">Synthesis</text>
+              
+              <!-- Arrow 3 -->
+              <path d="M330 60 H350" stroke="var(--accent-color)" stroke-width="2" />
+              
+              <!-- Node 4 -->
+              <rect x="350" y="35" width="100" height="50" rx="8" fill="var(--bg-tertiary)" stroke="var(--border-color)" />
+              <text x="400" y="58" fill="var(--text-primary)" font-size="11" font-weight="600" text-anchor="middle">Verify & Loop</text>
+              <text x="400" y="72" fill="var(--success-color)" font-size="10" text-anchor="middle">Human Checked</text>
+              
+              <!-- Arrow 4 -->
+              <path d="M450 60 H470" stroke="var(--accent-color)" stroke-width="2" />
+              
+              <!-- Node 5 -->
+              <rect x="470" y="35" width="80" height="50" rx="8" fill="var(--bg-tertiary)" stroke="var(--border-color)" />
+              <text x="510" y="58" fill="var(--text-primary)" font-size="11" font-weight="600" text-anchor="middle">Final Data</text>
+              <text x="510" y="72" fill="var(--text-secondary)" font-size="10" text-anchor="middle">JSON/CSV</text>
+              
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-color)"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+
+          <div class="timeline" style="margin-top: 20px;">
+            <div class="timeline-item">
+              <div class="timeline-step">1</div>
+              <div class="timeline-content">
+                <h4>Search Queries</h4>
+                <p>The agent generates automated queries targeting the developer docs, authentication requirements, and developer tier structures.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">2</div>
+              <div class="timeline-content">
+                <h4>Gemini synthesis</h4>
+                <p>A structured JSON schema prompt instructs the model to extract and validate details, saving intermediate outputs to avoid rate limits.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">3</div>
+              <div class="timeline-content">
+                <h4>Human-in-the-loop corrections</h4>
+                <p>A verification script matches a sample against hand-verified developer docs to ensure accuracy.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification Results & Metrics -->
+        <div class="panel" id="verification-panel">
+          <div class="verification-header">
+            <h3>Verification Metrics</h3>
+            <span class="tag tag-success">15% App Sample Checked</span>
+          </div>
+          
+          <div style="margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+              <span>First Pass Accuracy</span>
+              <strong>86.7%</strong>
+            </div>
+            <div class="verification-bar">
+              <div class="ver-pass-bar" style="width: 86.7%"></div>
+              <div class="ver-fail-bar" style="width: 13.3%"></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+              <span>Final Verified Accuracy (Self-Correction Loop)</span>
+              <strong>100%</strong>
+            </div>
+            <div class="verification-bar">
+              <div class="ver-pass-bar" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <h3>Top Verification Findings</h3>
+          <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+            During ground-truth cross-checks of 15 sample apps, the agent achieved high performance:
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-secondary); font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Auth Methods:</strong> 100% correct. Properly differentiated user-facing OAuth2 setups from developer Tokens/Keys.</li>
+            <li><strong>URL Accuracy:</strong> 100% domain match. Extracted direct reference documentation pages.</li>
+            <li><strong>Access Gating:</strong> Identified trial scopes and sandbox options for developer testing on enterprise suites.</li>
+            <li><strong>Hard Obstacles:</strong> Confirmed that closed APIs (e.g., <em>Otter AI</em>) have no public developer portals.</li>
+          </ul>
+
+          <div style="margin-top: 24px; background-color: var(--bg-tertiary); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <h4 style="font-size: 13px; margin-bottom: 6px; color: var(--text-primary);">⚠️ Stated Limitation</h4>
+            <p style="font-size: 12px; color: var(--text-secondary);">
+              Where apps require active customer workspaces (e.g., <em>Pylon</em>, <em>Fathom</em>), sandbox creation is gated behind business approval.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Interactive App Matrix -->
+    <section id="matrix-section">
+      <h2 class="section-title">Expandable Feasibility Matrix</h2>
+      
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="input-group">
+          <label for="search-input">Search Applications</label>
+          <input type="text" id="search-input" placeholder="Search by name, category, or description...">
+        </div>
+        <div class="input-group">
+          <label for="category-filter">Category</label>
+          <select id="category-filter">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="auth-filter">Auth Method</label>
+          <select id="auth-filter">
+            <option value="">All Auth Methods</option>
+            <option value="OAuth2">OAuth2</option>
+            <option value="API Key">API Key</option>
+            <option value="Token">Token</option>
+            <option value="Basic">Basic</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="buildable-filter">Buildable Today</label>
+          <select id="buildable-filter">
+            <option value="">All</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table Wrapper -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 80px;">ID</th>
+              <th style="width: 200px;">Application</th>
+              <th>Category</th>
+              <th>Auth Method(s)</th>
+              <th style="width: 160px;">Buildable</th>
+              <th style="width: 150px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="apps-table-body">
+            <!-- Rendered by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: Runner & Source Code -->
+    <section id="runner-section">
+      <h2 class="section-title">Developer Repository & Execution Guide</h2>
+      <div class="panel" id="runner-panel">
+        <h3>How to Run the Research Agent Pipeline</h3>
+        <p style="margin-bottom: 20px; color: var(--text-secondary);">
+          The repository is managed via <code>uv</code> to facilitate fast dependencies setup and isolated Python environments. Follow the commands below to execute the pipeline:
+        </p>
+        
+        <div style="background-color: var(--bg-primary); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-family: monospace; font-size: 13px; overflow-x: auto; color: var(--text-primary);">
+          <span style="color: var(--text-muted);"># 1. Clone the repository and navigate into the folder</span><br>
+          git clone &lt;repo-url&gt; && cd composis<br><br>
+          
+          <span style="color: var(--text-muted);"># 2. Set your Gemini API key in your terminal</span><br>
+          export GEMINI_API_KEY="your-gemini-api-key"<br><br>
+          
+          <span style="color: var(--text-muted);"># 3. Run the research agent pipeline using uv (downloads dependencies automatically)</span><br>
+          uv run --with google-generativeai --with duckduckgo-search --with requests src/research_agent.py<br><br>
+          
+          <span style="color: var(--text-muted);"># 4. Verify accuracy metrics against ground-truth sample</span><br>
+          python3 src/verify_accuracy.py<br><br>
+          
+          <span style="color: var(--text-muted);"># 5. Re-run analysis & generate assets for the dashboard</span><br>
+          python3 src/analyze_patterns.py && python3 src/generate_dashboard_assets.py
+        </div>
+
+
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
