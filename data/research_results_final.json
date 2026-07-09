@@ -293,21 +293,6 @@
     "evidence_url": "https://connect.gladly.com/api-reference/"
   },
   {
-    "id": 21,
-    "name": "Slack",
-    "category": "Communications and Messaging",
-    "website_hint": "slack.com",
-    "category_what_it_does": "Workspace messaging and business collaboration platform.",
-    "auth_methods": [
-      "OAuth2",
-      "Token"
-    ],
-    "self_serve_vs_gated": "Self-serve",
-    "api_surface": "REST (Web API), Socket Mode, Events. Broad official MCP support.",
-    "buildability_verdict": "Yes",
-    "evidence_url": "https://api.slack.com"
-  },
-  {
     "id": 22,
     "name": "Twilio",
     "category": "Communications and Messaging",
@@ -1461,5 +1446,33 @@
     "api_surface": "REST API.",
     "buildability_verdict": "Yes",
     "evidence_url": "https://developers.grain.com"
+  },
+  {
+    "id": 101,
+    "name": "sleck",
+    "category": "Custom Research",
+    "website_hint": "",
+    "category_what_it_does": "Failed to retrieve data for sleck",
+    "auth_methods": [
+      "Unknown"
+    ],
+    "self_serve_vs_gated": "Unknown",
+    "api_surface": "Unknown",
+    "buildability_verdict": "No",
+    "evidence_url": ""
+  },
+  {
+    "id": 101,
+    "name": "Slack",
+    "category": "Custom Research",
+    "website_hint": "",
+    "category_what_it_does": "Failed to retrieve data for Slack",
+    "auth_methods": [
+      "Unknown"
+    ],
+    "self_serve_vs_gated": "Unknown",
+    "api_surface": "Unknown",
+    "buildability_verdict": "No",
+    "evidence_url": ""
   }
 ]

@@ -1,31 +1,32 @@
 {
   "summary": {
-    "total_apps": 100,
-    "buildable_percent": 80.0,
-    "self_serve_percent": 79.0
+    "total_apps": 101,
+    "buildable_percent": 78.21782178217822,
+    "self_serve_percent": 77.22772277227723
   },
   "auth_distribution": {
-    "OAuth2": 56,
+    "OAuth2": 55,
     "API Key": 43,
-    "Token": 42,
+    "Token": 41,
     "Basic": 14,
-    "Other": 5,
+    "Other": 7,
     "None": 2
   },
   "access_gate_distribution": {
-    "Self-serve": 79,
+    "Self-serve": 78,
     "Gated-Sales/Partner": 10,
     "Gated-Admin": 4,
-    "Gated-Paid": 7
+    "Gated-Paid": 7,
+    "Other/Unknown": 2
   },
   "buildable_distribution": {
-    "Yes": 80,
-    "No": 20
+    "Yes": 79,
+    "No": 22
   },
   "blocker_distribution": {
     "Partner/Sales Gate": 13,
     "Paid Subscription Needed": 5,
-    "Gated/Restricted Access": 2
+    "Gated/Restricted Access": 4
   },
   "category_analysis": {
     "CRM and Sales": {
@@ -43,7 +44,7 @@
       "top_auth": "API Key"
     },
     "Communications and Messaging": {
-      "total": 10,
+      "total": 9,
       "self_serve_percent": 100.0,
       "gated_percent": 0.0,
       "buildable_percent": 100.0,
@@ -97,6 +98,13 @@
       "gated_percent": 60.0,
       "buildable_percent": 40.0,
       "top_auth": "API Key"
+    },
+    "Custom Research": {
+      "total": 2,
+      "self_serve_percent": 0.0,
+      "gated_percent": 100.0,
+      "buildable_percent": 0.0,
+      "top_auth": "Other"
     }
   },
   "easy_wins": [

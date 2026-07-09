@@ -16,19 +16,7 @@ OUTPUT_FILE = os.path.join(DATA_DIR, "research_results_v1.json")
 # Ensure directories exist
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# Configure Gemini
-api_key = os.environ.get("GEMINI_API_KEY")
-if not api_key:
-    print("❌ Error: GEMINI_API_KEY environment variable is not set.")
-    print("Please set it using: export GEMINI_API_KEY='your-key'")
-    sys.exit(1)
-
-genai.configure(api_key=api_key)
-# Using gemini-1.5-flash as it is fast, has high context, and supports structured JSON outputs
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config={"response_mime_type": "application/json"}
-)
+# Gemini client will be initialized dynamically inside the research function to prevent import side-effects.
 
 def search_ddg(query: str, max_results: int = 4) -> List[Dict[str, str]]:
     """Query DuckDuckGo for search results."""
@@ -53,6 +41,44 @@ def research_app(app: Dict[str, Any]) -> Dict[str, Any]:
     app_name = app["name"]
     hint = app["website_hint"]
     category = app["category"]
+    
+    # Configure Gemini dynamically
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("❌ Error: GEMINI_API_KEY environment variable is not set inside research_app.")
+        return {
+            "id": app["id"],
+            "name": app_name,
+            "category": category,
+            "website_hint": hint,
+            "category_what_it_does": "Error: GEMINI_API_KEY is not configured.",
+            "auth_methods": ["Unknown"],
+            "self_serve_vs_gated": "Unknown",
+            "api_surface": "Unknown",
+            "buildability_verdict": "No",
+            "evidence_url": hint
+        }
+        
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            generation_config={"response_mime_type": "application/json"}
+        )
+    except Exception as e:
+        print(f"❌ Error configuring Gemini model: {e}")
+        return {
+            "id": app["id"],
+            "name": app_name,
+            "category": category,
+            "website_hint": hint,
+            "category_what_it_does": f"Error: Failed to initialize model ({e})",
+            "auth_methods": ["Unknown"],
+            "self_serve_vs_gated": "Unknown",
+            "api_surface": "Unknown",
+            "buildability_verdict": "No",
+            "evidence_url": hint
+        }
     
     print(f"\n🔍 Researching: {app_name} (Hint: {hint})")
     
@@ -129,6 +155,12 @@ Only respond with a valid JSON block, conforming strictly to the schema. Do not 
     }
 
 def main():
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("❌ Error: GEMINI_API_KEY environment variable is not set.")
+        print("Please set it using: export GEMINI_API_KEY='your-key'")
+        sys.exit(1)
+        
     if not os.path.exists(INPUT_FILE):
         print(f"❌ Input file not found at {INPUT_FILE}. Please run parse_apps.py first.")
         sys.exit(1)
