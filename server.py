@@ -179,6 +179,10 @@ def trigger_pipeline():
 @app.route("/api/research-single", methods=["POST"])
 def research_single_app():
     """Trigger research for a single custom app and append it to the dataset on the fly!"""
+    global pipeline_status
+    if pipeline_status["running"]:
+        return jsonify({"success": False, "message": "Pipeline is already running."}), 400
+        
     app_name = request.json.get("name")
     hint = request.json.get("website_hint", "")
     req_key = request.json.get("api_key")
@@ -192,9 +196,18 @@ def research_single_app():
     if not api_key:
         return jsonify({"success": False, "message": "Gemini API Key is not provided. Cannot run LLM agent."}), 400
 
+    pipeline_status["running"] = True
+    pipeline_status["current_step"] = f"Researching {app_name}..."
+    pipeline_status["error"] = None
+
     # Spawning research task in a worker thread/process
     def task():
+        global pipeline_status
         try:
+            # Clear log file and print initial progress
+            with open(LOG_FILE, "w") as f:
+                f.write(f"🔍 Starting live research agent for app '{app_name}'...\n")
+                
             # We import research_app dynamically
             sys.path.append(os.path.join(DIR_PATH, "src"))
             from research_agent import research_app
@@ -215,9 +228,13 @@ def research_single_app():
                 "category": "Custom Research"
             }
             
-            # Perform research
+            with open(LOG_FILE, "a") as f:
+                f.write("  Searching developer documentation on the web...\n")
+            
+            # Perform research - this raises an Exception if Gemini or search fails
             result = research_app(app_meta)
             
+            # If we reached here, the research succeeded!
             # Load existing final results, append new one, save
             final_results = []
             if os.path.exists(RESULTS_PATH):
@@ -237,15 +254,26 @@ def research_single_app():
             analyze_patterns.analyze_patterns()
             generate_dashboard_assets.generate_js()
             
+            with open(LOG_FILE, "a") as f:
+                f.write(f"✅ Output is ready! You can now check the table.\n")
             print(f"✅ Custom app {app_name} researched and appended successfully!")
+            pipeline_status["current_step"] = "completed"
+            
         except Exception as e:
-            print(f"❌ Error researching custom app: {e}")
+            err_msg = f"❌ Failed to research app '{app_name}': {e}. Please check your API Key and connection.\n"
+            print(err_msg.strip())
+            with open(LOG_FILE, "a") as f:
+                f.write(err_msg)
+            pipeline_status["current_step"] = "failed"
+            pipeline_status["error"] = str(e)
+        finally:
+            pipeline_status["running"] = False
             
     thread = threading.Thread(target=task)
     thread.daemon = True
     thread.start()
     
-    return jsonify({"success": True, "message": f"Started custom research for {app_name} in background. Please refresh in a few seconds."})
+    return jsonify({"success": True, "message": f"Started custom research for {app_name} in background."})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))

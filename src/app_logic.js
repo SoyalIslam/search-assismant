@@ -218,10 +218,9 @@ function setupPipelineControls() {
             const data = await res.json();
             
             if (data.success) {
-                consoleBox.textContent += "\n\nResearch process started in the background! Please wait ~15 seconds, the dashboard will reload automatically.";
-                setTimeout(() => {
-                    location.reload();
-                }, 15000);
+                startPolling();
+                btnCustom.textContent = "🔍 Run Custom Agent";
+                btnCustom.disabled = false;
             } else {
                 alert(data.message);
                 btnCustom.textContent = "🔍 Run Custom Agent";

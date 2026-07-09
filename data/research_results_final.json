@@ -1474,5 +1474,19 @@
     "api_surface": "Unknown",
     "buildability_verdict": "No",
     "evidence_url": ""
+  },
+  {
+    "id": 101,
+    "name": "Clerk",
+    "category": "Custom Research",
+    "website_hint": "clerk.com",
+    "category_what_it_does": "Failed to retrieve data for Clerk",
+    "auth_methods": [
+      "Unknown"
+    ],
+    "self_serve_vs_gated": "Unknown",
+    "api_surface": "Unknown",
+    "buildability_verdict": "No",
+    "evidence_url": "clerk.com"
   }
 ]

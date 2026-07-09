@@ -137,22 +137,12 @@ Only respond with a valid JSON block, conforming strictly to the schema. Do not 
             data["website_hint"] = hint
             return data
         except Exception as e:
+            last_err = e
             print(f"  ⚠️ LLM error (attempt {attempt + 1}/{retries}): {e}")
             time.sleep(3)
             
-    # Fallback response in case of error
-    return {
-        "id": app["id"],
-        "name": app_name,
-        "category": category,
-        "website_hint": hint,
-        "category_what_it_does": f"Failed to retrieve data for {app_name}",
-        "auth_methods": ["Unknown"],
-        "self_serve_vs_gated": "Unknown",
-        "api_surface": "Unknown",
-        "buildability_verdict": "No",
-        "evidence_url": hint
-    }
+    # Raise exception if all retries fail
+    raise Exception(f"Gemini LLM error: {last_err}")
 
 def main():
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -186,8 +176,23 @@ def main():
         if app_id in results:
             continue
             
-        result = research_app(app)
-        results[app_id] = result
+        try:
+            result = research_app(app)
+            results[app_id] = result
+        except Exception as e:
+            print(f"❌ Failed to research {app['name']}: {e}")
+            results[app_id] = {
+                "id": app["id"],
+                "name": app["name"],
+                "category": app["category"],
+                "website_hint": app["website_hint"],
+                "category_what_it_does": f"Failed to retrieve data: {e}",
+                "auth_methods": ["Unknown"],
+                "self_serve_vs_gated": "Unknown",
+                "api_surface": "Unknown",
+                "buildability_verdict": "No",
+                "evidence_url": app["website_hint"]
+            }
         
         # Write back to file after each app
         with open(OUTPUT_FILE, "w") as f:
