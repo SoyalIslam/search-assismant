@@ -345,35 +345,7 @@
       </div>
     </section>
 
-    <!-- Section 4: Runner & Source Code -->
-    <section id="runner-section">
-      <h2 class="section-title">Developer Repository & Execution Guide</h2>
-      <div class="panel" id="runner-panel">
-        <h3>How to Run the Research Agent Pipeline</h3>
-        <p style="margin-bottom: 20px; color: var(--text-secondary);">
-          The repository is managed via <code>uv</code> to facilitate fast dependencies setup and isolated Python environments. Follow the commands below to execute the pipeline:
-        </p>
-        
-        <div style="background-color: var(--bg-primary); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-family: monospace; font-size: 13px; overflow-x: auto; color: var(--text-primary);">
-          <span style="color: var(--text-muted);"># 1. Clone the repository and navigate into the folder</span><br>
-          git clone &lt;repo-url&gt; && cd composis<br><br>
-          
-          <span style="color: var(--text-muted);"># 2. Set your Gemini API key in your terminal</span><br>
-          export GEMINI_API_KEY="your-gemini-api-key"<br><br>
-          
-          <span style="color: var(--text-muted);"># 3. Run the research agent pipeline using uv (downloads dependencies automatically)</span><br>
-          uv run --with google-generativeai --with duckduckgo-search --with requests src/research_agent.py<br><br>
-          
-          <span style="color: var(--text-muted);"># 4. Verify accuracy metrics against ground-truth sample</span><br>
-          python3 src/verify_accuracy.py<br><br>
-          
-          <span style="color: var(--text-muted);"># 5. Re-run analysis & generate assets for the dashboard</span><br>
-          python3 src/analyze_patterns.py && python3 src/generate_dashboard_assets.py
-        </div>
 
-
-      </div>
-    </section>
 
   </div>
 
