@@ -76,17 +76,4 @@ python3 src/generate_dashboard_assets.py
 ```
 *Updates: `app.js`*
 
----
 
-## ☁️ Vercel Deployment
-
-This project is optimized to run as a serverless Flask app on Vercel's read-only environment:
-
-1. Create a GitHub repository and push this project:
-   ```bash
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
-2. Import the repository in your **Vercel Dashboard**.
-3. Under the **Environment Variables** section, you can optionally add your `GEMINI_API_KEY` (if you want custom lookups to work instantly on Vercel).
-4. Click **Deploy**.
